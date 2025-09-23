@@ -1,52 +1,63 @@
 <template>
-    <div class="container py-5">
-        <h1 class="mb-4 text-center">Bem-vindo à Zaralha Servers</h1>
-        <p class="lead text-center mb-5">
-            Conheça nossos servidores dedicados para os melhores jogos de sobrevivência! Todos os nossos servidores
-            estão atualmente <span class="fw-bold text-warning">em manutenção</span>, mas em breve estarão prontos para
-            você e seus amigos.
-        </p>
-        <div class="row g-4 justify-content-center">
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="card h-100 shadow">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Rust</h5>
-                        <p class="card-text mb-2"><span class="fw-bold">IP:</span> rust.zaralha.gg:28015</p>
-                        <span class="badge bg-warning text-dark mb-2">Em Manutenção</span>
-                        <p class="card-text small text-muted">Servidor focado em PvP e eventos semanais.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="card h-100 shadow">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Minecraft</h5>
-                        <p class="card-text mb-2"><span class="fw-bold">IP:</span> mc.zaralha.gg:25565</p>
-                        <span class="badge bg-warning text-dark mb-2">Em Manutenção</span>
-                        <p class="card-text small text-muted">Survival, criativo e minigames para todos os gostos.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="card h-100 shadow">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">ARK: Survival Evolved</h5>
-                        <p class="card-text mb-2"><span class="fw-bold">IP:</span> ark.zaralha.gg:27015</p>
-                        <span class="badge bg-warning text-dark mb-2">Em Manutenção</span>
-                        <p class="card-text small text-muted">Servidor PvE com mods e eventos especiais.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="card h-100 shadow">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">DayZ</h5>
-                        <p class="card-text mb-2"><span class="fw-bold">IP:</span> dayz.zaralha.gg:2302</p>
-                        <span class="badge bg-warning text-dark mb-2">Em Manutenção</span>
-                        <p class="card-text small text-muted">Experiência hardcore com loot balanceado e eventos.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <ServersSection />
 </template>
+
+<script setup>
+import ServersSection from '../components/ServersSection.vue'
+const servers = [
+  { name: "Rust", slots: "86 / 200", ip: "rust.zaralha.gg:28015" },
+  { name: "Minecraft", slots: "120 / 500", ip: "mc.zaralha.gg:25565" },
+  { name: "Ark", slots: "65 / 150", ip: "ark.zaralha.gg:27015" },
+  { name: "DayZ", slots: "30 / 80", ip: "dayz.zaralha.gg:2302" },
+];
+</script>
+
+<style scoped>
+.home-dark {
+  background: #0d0d0f;
+  color: #fff;
+}
+
+.hero {
+  position: relative;
+  height: 60vh;
+  background: url("/assets/hero-bg.jpg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #f2a900; /* cor destaque */
+}
+
+.server-card {
+  background: #1a1a1f;
+  border: 1px solid #333;
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+.server-card:hover {
+  border-color: #f2a900;
+  box-shadow: 0 0 15px #f2a90055;
+}
+</style>
