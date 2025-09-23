@@ -14,10 +14,9 @@ function handleClick(platform) {
 
             <!-- Links -->
             <ul class="footer-nav list-inline mb-3">
-                <li class="list-inline-item"><a href="/home">Home</a></li>
-                <li class="list-inline-item"><a href="/statistics">Statistics</a></li>
+                <li class="list-inline-item"><a href="/about">About us</a></li>
                 <li class="list-inline-item"><a href="/shop">Shop</a></li>
-                <li class="list-inline-item"><a href="/account">Account</a></li>
+                <li class="list-inline-item"><a href="/servers">Servers</a></li>
             </ul>
 
             <!-- Social -->

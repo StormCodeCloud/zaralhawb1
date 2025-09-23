@@ -24,11 +24,14 @@ function handleClick(platform) {
 <template>
   <header>
     <!-- Topbar -->
-    <div class="topbar d-flex justify-content-between align-items-center px-3">
-      <div class="social-links">
-        <a href="https://discord.gg/jVDU97c9Xj" target="_blank"><i class="bi bi-discord"></i></a>
-        <a href="https://store.steampowered.com/" target="_blank"><i class="bi bi-steam"></i></a>
-        <a href="#" @click.prevent="handleClick('YouTube')" target="_blank"><i class="bi bi-youtube"></i></a>
+    <div class="topbar d-flex justify-content-center align-items-center px-3">
+      <div class="social-links d-flex flex-column align-items-center">
+        <div class="connect-text">CONNECT WITH US</div>
+        <div class="icons">
+          <a href="https://discord.gg/jVDU97c9Xj" target="_blank"><i class="bi bi-discord"></i></a>
+          <a href="https://steamcommunity.com/groups/zaralhaservers" target="_blank"><i class="bi bi-steam"></i></a>
+          <a href="#" @click.prevent="handleClick('YouTube')"><i class="bi bi-youtube"></i></a>
+        </div>
       </div>
     </div>
 
@@ -40,32 +43,28 @@ function handleClick(platform) {
           <img src="../assets/navbar_logo.png" alt="Zaralha Servers Logo" class="navbar-logo me-2" />
         </a>
 
-        <!-- Botão hamburguer -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Links -->
+        <!-- Links + dropdown + login -->
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav ms-auto align-items-center">
             <li class="nav-item">
               <a class="nav-link" href="/about">About Us</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/servers">Servers</a>
+
+            <!-- Dropdown Servers -->
+            <li class="nav-item ">
+              <a class="nav-link " href="#" role="button" aria-expanded="false">
+                Servers
+              </a>
             </li>
+
             <li class="nav-item">
               <a class="nav-link" href="/shop">Shop</a>
             </li>
-          </ul>
 
-          <!-- Botão login -->
-          <div class="d-flex ms-auto">
-            <a href="http://localhost:3000/auth/steam" class="btn btn-steam">
-              <i class="bi bi-steam me-2"></i> Login via Steam
-            </a>
-          </div>
+            <!-- Botão login -->
+            <div class="d-flex ms-auto"> <a href="http://localhost:3000/auth/steam" class="btn btn-steam"> <i
+                  class="bi bi-steam me-2"></i> Login via Steam </a> </div>
+          </ul>
         </div>
       </div>
     </nav>
@@ -76,18 +75,31 @@ function handleClick(platform) {
 /* Topbar */
 .topbar {
   background: #111;
-  height: 35px;
-  font-size: 0.9rem;
+  height: 60px;
+  /* aumenta para caber texto + ícones */
 }
 
-.social-links a {
-  color: #bbb;
-  margin-right: 1rem;
+.social-links {
+  text-align: center;
+}
+
+.connect-text {
+  font-size: 0.7rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 3px;
+  /* espaço entre texto e ícones */
+}
+
+.icons a {
+  margin: 0 6px;
   font-size: 1.2rem;
+  color: #bbb;
   transition: color 0.3s;
 }
 
-.social-links a:hover {
+.icons a:hover {
   color: #f2a900;
 }
 
