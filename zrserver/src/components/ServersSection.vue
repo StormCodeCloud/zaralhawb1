@@ -2,9 +2,9 @@
 const servers = [
   {
     name: "Rust 1000x",
-    ip: "client.connect 177.84.174.113:28015",
+    ip: "177.84.174.113:28015",
     slots: "0 / 100",
-    desc: "Servidor focado em PvP e muito mais!",
+    desc: "PVP e muito mais!",
     status: "Online!"
   },
   {
@@ -25,14 +25,14 @@ const servers = [
     name: "DayZ",
     ip: "IP ainda por definir.",
     slots: "0 / 80",
-    desc: "Experiência hardcore com loot balanceado e eventos.",
+    desc: "O Mundo dos zumbies!",
     status: "Em Manutenção"
   }
 ]
 </script>
 
 <template>
-  <section class="servers py-5">
+  <section id="servers" class="servers py-5">
     <div class="container">
       <h2 class="section-title text-center mb-5">Nossos Servidores</h2>
       <div class="row g-4">
