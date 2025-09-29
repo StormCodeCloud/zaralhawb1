@@ -14,16 +14,11 @@ function handleClick(platform) {
 
             <!-- Links -->
             <ul class="footer-nav list-inline mb-3">
-<<<<<<< HEAD
+                <li class="list-inline-item"><a href="/home">Home</a></li>
                 <li class="list-inline-item"><a href="/about">About us</a></li>
                 <li class="list-inline-item"><a href="/shop">Shop</a></li>
                 <li class="list-inline-item"><a href="/servers">Servers</a></li>
-=======
-                <li class="list-inline-item"><a href="/home">Home</a></li>
-                <li class="list-inline-item"><a href="/">Servers</a></li>
-                <li class="list-inline-item"><a href="/shop">Shop</a></li>
-                <li class="list-inline-item"><a href="/services">Services</a></li>
->>>>>>> 5033680bb45a1bdbf3df2d322a76d9b5b168f9ed
+
             </ul>
 
             <!-- Social -->

@@ -8,22 +8,24 @@ onMounted(() => {
   if (saved) {
     steamUser.value = JSON.parse(saved);
   }
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-      }
-    });
-  });
-
-  document.querySelectorAll(".section").forEach(el => observer.observe(el));
 });
 
 function logout() {
   localStorage.removeItem("steamUser");
   steamUser.value = null;
-  window.location.href = "/"; // refresh
+  window.location.href = "/";
+}
+
+// 🔹 Simulação do login Steam (até configurar OpenID)
+function loginWithSteam() {
+  const fakeUser = {
+    name: "ZaralhaPlayer",
+    avatar:
+      "https://media.discordapp.net/attachments/1270844761242337371/1380276863448125580/ZR_logo-removebg-preview.png?ex=68dc3880&is=68dae700&hm=c8180ae417ecc29dffff05f3f7977ad3c43454070d3cf6989172dbc03ba0fec2&=&format=webp&quality=lossless",
+    steamid: "76561198000000000",
+  };
+  localStorage.setItem("steamUser", JSON.stringify(fakeUser));
+  steamUser.value = fakeUser;
 }
 
 function handleClick(platform) {
@@ -53,34 +55,35 @@ function handleClick(platform) {
           <img src="../assets/navbar_logo.png" alt="Zaralha Servers Logo" class="navbar-logo me-2" />
         </a>
 
-        <!-- Links + dropdown + login -->
+        <!-- Links + Login -->
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav ms-auto align-items-center">
+          <ul class="navbar-nav align-items-center w-100">
             <li class="nav-item">
               <a class="nav-link" href="/about">About Us</a>
             </li>
-
-            <!-- Dropdown Servers -->
-            <li class="nav-item ">
-              <a class="nav-link " href="#" role="button" aria-expanded="false">
-                Servers
-              </a>
+            <li class="nav-item">
+              <a class="nav-link" href="/servers">Servers</a>
             </li>
-
             <li class="nav-item">
               <a class="nav-link" href="/shop">Shop</a>
             </li>
-<<<<<<< HEAD
-=======
             <li class="nav-item">
               <a class="nav-link" href="/services">Services</a>
             </li>
-          </ul>
->>>>>>> 5033680bb45a1bdbf3df2d322a76d9b5b168f9ed
 
-            <!-- Botão login -->
-            <div class="d-flex ms-auto"> <a href="http://localhost:3000/auth/steam" class="btn btn-steam"> <i
-                  class="bi bi-steam me-2"></i> Login via Steam </a> </div>
+            <!-- 🔹 Botão/Login Steam (empurrado para a direita com ms-auto) -->
+            <li class="nav-item ms-auto">
+              <div v-if="!steamUser" class="login-btn" @click="loginWithSteam">
+                <i class="bi bi-steam me-1"></i> Login com Steam
+              </div>
+              <div v-else class="d-flex align-items-center">
+                <img :src="steamUser.avatar" alt="avatar" class="user-avatar me-2" />
+                <span class="me-2">{{ steamUser.name }}</span>
+                <button class="btn btn-sm btn-warning" @click="logout">
+                  Logout
+                </button>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
@@ -89,7 +92,6 @@ function handleClick(platform) {
 </template>
 
 <style scoped>
-
 html {
   scroll-behavior: smooth;
 }
@@ -109,7 +111,6 @@ html {
 .topbar {
   background: #111;
   height: 60px;
-  /* aumenta para caber texto + ícones */
 }
 
 .social-links {
@@ -122,7 +123,6 @@ html {
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 3px;
-  /* espaço entre texto e ícones */
 }
 
 .icons a {
@@ -133,15 +133,6 @@ html {
 }
 
 .icons a:hover {
-  color: #f2a900;
-}
-
-.top-actions a {
-  color: #bbb;
-  text-decoration: none;
-}
-
-.top-actions a:hover {
   color: #f2a900;
 }
 
@@ -180,12 +171,29 @@ html {
 
 .navbar-logo {
   height: 80px;
-  /* ajusta o tamanho do logo */
   width: auto;
 }
 
-.btn-steam {
-  color: #fff;
+/* Avatar Steam */
+.user-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #f2a900;
+}
+
+/* Botão login Steam */
+.login-btn {
+  color: #f2a900;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 5px;
   transition: 0.3s;
+}
+
+.login-btn:hover {
+  background-color: #171a21;
 }
 </style>
