@@ -4,6 +4,7 @@ import AboutView from "../views/AboutView.vue";
 import ServersView from "@/views/ServersView.vue";
 import ShopView from "@/views/ShopView.vue";
 import RegisterView from "@/views/RegisterView.vue";
+import ServerSection from "@/components/ServersSection.vue"
 
 const routes = [
   { path: "/", component: HomeView },
