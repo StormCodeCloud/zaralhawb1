@@ -8,6 +8,16 @@ onMounted(() => {
   if (saved) {
     steamUser.value = JSON.parse(saved);
   }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  });
+
+  document.querySelectorAll(".section").forEach(el => observer.observe(el));
 });
 
 function logout() {
@@ -58,6 +68,9 @@ function handleClick(platform) {
             <li class="nav-item">
               <a class="nav-link" href="/shop">Shop</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/services">Services</a>
+            </li>
           </ul>
 
           <!-- Botão login -->
@@ -73,6 +86,22 @@ function handleClick(platform) {
 </template>
 
 <style scoped>
+
+html {
+  scroll-behavior: smooth;
+}
+
+.section {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Topbar */
 .topbar {
   background: #111;

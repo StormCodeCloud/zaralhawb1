@@ -5,7 +5,7 @@
     <div class="overlay"></div>
     <div class="hero-content text-center">
       <h1 class="hero-title">ZARALHA SERVERS</h1>
-      <p class="hero-subtitle">
+      <p class="hero-subtitle"> 
         Servidores seguros em Rust, Minecraft, Ark e DayZ
       </p>
     </div>
@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-
+import Services from "@/views/ServicesView.vue"
 import heroImg from "../assets/Rust-144.jpg";
 import ServersSection from '../components/ServersSection.vue'
 const servers = [
@@ -26,6 +26,14 @@ const servers = [
 </script>
 
 <style scoped>
+
+@font-face {
+  font-family: "thornton-k7eal";
+  src: url("./assets/fonts/thornton-k7eal") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .home-dark {
   background: #0d0d0f;
   color: #fff;
@@ -58,6 +66,7 @@ const servers = [
 }
 
 .hero-subtitle {
+  font-family: "thornton-k7eal", cursive;
   font-size: 1.2rem;
   color: #f2a900;
   /* cor destaque */

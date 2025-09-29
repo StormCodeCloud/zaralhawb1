@@ -32,7 +32,7 @@ const servers = [
 </script>
 
 <template>
-  <section class="servers py-5">
+  <section id="servers" class="servers py-5">
     <div class="container">
       <h2 class="section-title text-center mb-5">Nossos Servidores</h2>
       <div class="row g-4">
