@@ -7,7 +7,7 @@
       <h1 class="hero-title">Loja Zaralha Rust</h1>
       <p class="hero-subtitle">
         Itens exclusivos, kits VIP e recursos para os seus servidores Rust
-      </p>
+      </p> 
     </div>
   </section>
 
