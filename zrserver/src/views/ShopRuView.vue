@@ -7,7 +7,7 @@
       <h1 class="hero-title">Loja Zaralha Rust</h1>
       <p class="hero-subtitle">
         Itens exclusivos, kits VIP e recursos para os seus servidores Rust
-      </p> 
+      </p>
     </div>
   </section>
 
@@ -35,11 +35,7 @@
   <section class="shop-items container-fluid py-5">
     <div class="container">
       <div class="row g-4">
-        <div
-          v-for="item in filteredItems"
-          :key="item.id"
-          class="col-12 col-sm-6 col-lg-4 col-xl-3 d-flex"
-        >
+        <div v-for="item in filteredItems" :key="item.id" class="col-12 col-sm-6 col-lg-4 col-xl-3 d-flex">
           <div class="card flex-fill h-100">
             <div class="card-img-wrapper">
               <img :src="item.image" :alt="item.name" class="card-img-top">
@@ -48,7 +44,8 @@
             </div>
             <div class="card-body d-flex flex-column">
               <h5 class="card-title">{{ item.name }}</h5>
-              <input id="quantidadeItem" class="form-control quantity-input" type="number" max="100" min="1" placeholder="Quantidade desejada">
+              <input id="quantidadeItem" class="form-control quantity-input" type="number" max="100" min="1"
+                placeholder="Quantidade desejada">
               <p class="card-text flex-grow-1">{{ item.description }}</p>
               <button class="btn btn-warning mt-auto">Comprar</button>
             </div>
@@ -67,8 +64,7 @@ import vipSilver from "../assets/vips/vipsilver.png";
 import vipBronze from "../assets/vips/vipbronze.png";
 
 // importa todos os ficheiros .webp da pasta
-const icons = import.meta.glob("../assets/itens-rust/icons/*.webp", { eager: true }); 
-
+const icons = import.meta.glob("../assets/itens-rust/icons/*.webp", { eager: true });
 
 const categories = [
   { name: 'all', label: 'Todos os itens' },
@@ -148,9 +144,12 @@ const filteredItems = computed(() => {
 
 /* --- FIX PARA AS CATEGORIAS --- */
 .shop-nav .nav {
-  flex-wrap: wrap;           /* permite quebrar linha */
-  gap: 0.5rem;               /* espaçamento entre botões */
-  justify-content: center;   /* centraliza tudo */
+  flex-wrap: wrap;
+  /* permite quebrar linha */
+  gap: 0.5rem;
+  /* espaçamento entre botões */
+  justify-content: center;
+  /* centraliza tudo */
 }
 
 .shop-nav .nav-link {
@@ -174,6 +173,7 @@ const filteredItems = computed(() => {
   font-weight: 600;
   border-color: #f2a900;
 }
+
 /* ---------------------------- */
 
 .card {
@@ -218,16 +218,22 @@ const filteredItems = computed(() => {
 
 /* Estilos para o input de quantidade, integrando com layout do cartão */
 .quantity-input {
-  width: 100%;               /* por padrão ocupa toda a largura do card-body */
-  max-width: 140px;          /* mas não fica demasiado largo em ecrãs grandes */
-  margin: 0.5rem 0;          /* separação entre título/descrição */
-  padding: 0.375rem 0.5rem;  /* similar ao form-control do bootstrap */
+  width: 100%;
+  /* por padrão ocupa toda a largura do card-body */
+  max-width: 140px;
+  /* mas não fica demasiado largo em ecrãs grandes */
+  margin: 0.5rem 0;
+  /* separação entre título/descrição */
+  padding: 0.375rem 0.5rem;
+  /* similar ao form-control do bootstrap */
   border-radius: 6px;
   border: 1px solid #2b2b30;
   background: #0f0f12;
   color: #fff;
-  text-align: center;        /* centraliza o valor numérico */
-  -moz-appearance: textfield; /* reduz setas no Firefox */
+  text-align: center;
+  /* centraliza o valor numérico */
+  -moz-appearance: textfield;
+  /* reduz setas no Firefox */
 }
 
 /* Remover setas em inputs number para WebKit */
