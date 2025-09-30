@@ -48,6 +48,7 @@
             </div>
             <div class="card-body d-flex flex-column">
               <h5 class="card-title">{{ item.name }}</h5>
+              <input id="quantidadeItem" class="form-control quantity-input" type="number" max="100" min="1" placeholder="Quantidade desejada">
               <p class="card-text flex-grow-1">{{ item.description }}</p>
               <button class="btn btn-warning mt-auto">Comprar</button>
             </div>
@@ -64,6 +65,10 @@ import heroImg from "../assets/shop/shopRustbg.jpg";
 import vipGold from "../assets/vips/vipgold.png";
 import vipSilver from "../assets/vips/vipsilver.png";
 import vipBronze from "../assets/vips/vipbronze.png";
+
+// importa todos os ficheiros .webp da pasta
+const icons = import.meta.glob("../assets/itens-rust/icons/*.webp", { eager: true }); 
+
 
 const categories = [
   { name: 'all', label: 'Todos os itens' },
@@ -86,9 +91,9 @@ const currentCat = ref('all');
 const searchTerm = ref('');
 
 const items = ref([
-  { id: 1, name: 'VIP Gold', description: 'VIP preparado para aquele player que gosta de iniciar o wipe em grande!', price: 30, category: 'vip', image: vipGold },
+  { id: 1, name: 'VIP Gold', description: 'VIP preparado para aquele player que gosta de iniciar o wipe em grande!', price: 50, category: 'vip', image: vipGold },
   { id: 2, name: 'VIP Silver', description: 'VIP com o necessário para começar mediamente bem em um wipe solo.', price: 40, category: 'vip', label: 'Mais vendido', image: vipSilver },
-  { id: 3, name: 'VIP Bronze', description: 'VIP para aquele iniciante que gosta de ter uma ajudinha de inicio!', price: 50, category: 'vip', image: vipBronze },
+  { id: 3, name: 'VIP Bronze', description: 'VIP para aquele iniciante que gosta de ter uma ajudinha de inicio!', price: 30, category: 'vip', image: vipBronze },
 ]);
 
 const filteredItems = computed(() => {
@@ -209,5 +214,33 @@ const filteredItems = computed(() => {
 
 .btn-warning:hover {
   background-color: #d78e00;
+}
+
+/* Estilos para o input de quantidade, integrando com layout do cartão */
+.quantity-input {
+  width: 100%;               /* por padrão ocupa toda a largura do card-body */
+  max-width: 140px;          /* mas não fica demasiado largo em ecrãs grandes */
+  margin: 0.5rem 0;          /* separação entre título/descrição */
+  padding: 0.375rem 0.5rem;  /* similar ao form-control do bootstrap */
+  border-radius: 6px;
+  border: 1px solid #2b2b30;
+  background: #0f0f12;
+  color: #fff;
+  text-align: center;        /* centraliza o valor numérico */
+  -moz-appearance: textfield; /* reduz setas no Firefox */
+}
+
+/* Remover setas em inputs number para WebKit */
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Em ecrãs maiores permitir que o input se fixe numa largura agradável */
+@media (min-width: 576px) {
+  .quantity-input {
+    width: auto;
+  }
 }
 </style>

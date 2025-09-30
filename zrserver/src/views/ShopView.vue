@@ -1,7 +1,7 @@
 <template>
   <section
     class="hero shop-selector d-flex align-items-center justify-content-center"
-    :style="{ backgroundImage: `url(${zaralhaBG})` }"
+    :style="{ backgroundImage: `url(${shopbg})` }"
   >
     <div class="overlay"></div>
     <div class="hero-content text-center">
@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import zaralhaBG from '@/assets/zaralhaBG.png'
+import shopbg from '@/assets/shop/shopbg.png'
 function showWarning(shop) {
   alert(`${shop} Shop está em manutenção, mas já pode ser visualizada.`)
 }
