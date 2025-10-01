@@ -16,18 +16,6 @@ function logout() {
   window.location.href = "/";
 }
 
-// 🔹 Simulação do login Steam (até configurar OpenID)
-function loginWithSteam() {
-  const fakeUser = {
-    name: "ZaralhaPlayer",
-    avatar:
-      "https://media.discordapp.net/attachments/1270844761242337371/1380276863448125580/ZR_logo-removebg-preview.png?ex=68dc3880&is=68dae700&hm=c8180ae417ecc29dffff05f3f7977ad3c43454070d3cf6989172dbc03ba0fec2&=&format=webp&quality=lossless",
-    steamid: "76561198000000000",
-  };
-  localStorage.setItem("steamUser", JSON.stringify(fakeUser));
-  steamUser.value = fakeUser;
-}
-
 function handleClick(platform) {
   alert(`Ainda não temos conta no ${platform}. Em breve estará disponível!`);
 }
@@ -35,7 +23,7 @@ function handleClick(platform) {
 
 <template>
   <header>
-    <!-- Topbar -->
+    <!-- 🔹 Topbar -->
     <div class="topbar d-flex justify-content-center align-items-center px-3">
       <div class="social-links d-flex flex-column align-items-center">
         <div class="connect-text">CONNECT WITH US</div>
@@ -47,44 +35,58 @@ function handleClick(platform) {
       </div>
     </div>
 
-    <!-- Navbar principal -->
+    <!-- 🔹 Navbar principal -->
     <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
       <div class="container-fluid">
         <!-- Logo -->
-        <a class="navbar-brand d-flex align-items-center" href="/">
+        <router-link class="navbar-brand d-flex align-items-center" to="/">
           <img src="../assets/navbar_logo.png" alt="Zaralha Servers Logo" class="navbar-logo me-2" />
-        </a>
+        </router-link>
+
+        <!-- Botão toggle (mobile) -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
         <!-- Links + Login -->
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav align-items-center w-100">
+          <ul class="navbar-nav align-items-center">
             <li class="nav-item">
-              <a class="nav-link" href="/about">About Us</a>
+              <router-link class="nav-link" to="/about">About Us</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/servers">Servers</a>
+              <router-link class="nav-link" to="/servers">Servers</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/shop">Shop</a>
+              <router-link class="nav-link" to="/shop">Shop</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/services">Services</a>
-            </li>
-
-            <!-- 🔹 Botão/Login Steam (empurrado para a direita com ms-auto) -->
-            <li class="nav-item ms-auto">
-              <div v-if="!steamUser" class="login-btn" @click="loginWithSteam">
-                <i class="bi bi-steam me-1"></i> Login com Steam
-              </div>
-              <div v-else class="d-flex align-items-center">
-                <img :src="steamUser.avatar" alt="avatar" class="user-avatar me-2" />
-                <span class="me-2">{{ steamUser.name }}</span>
-                <button class="btn btn-sm btn-warning" @click="logout">
-                  Logout
-                </button>
-              </div>
+              <router-link class="nav-link" to="/services">Services</router-link>
             </li>
           </ul>
+
+          <!-- 🔹 Área login no canto direito -->
+          <div class="d-flex ms-auto align-items-center">
+            <!-- Se NÃO está logado -->
+            <router-link v-if="!steamUser" to="/login" class="login-btn">
+              <i class="bi bi-box-arrow-in-right me-1"></i> Login
+            </router-link>
+
+            <!-- Se está logado -->
+            <div v-else class="d-flex align-items-center">
+              <img :src="steamUser.avatar" alt="avatar" class="user-avatar me-2" />
+              <span class="me-2">{{ steamUser.name }}</span>
+              <button class="btn btn-sm btn-warning" @click="logout">Logout</button>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
@@ -94,17 +96,6 @@ function handleClick(platform) {
 <style scoped>
 html {
   scroll-behavior: smooth;
-}
-
-.section {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: all 0.8s ease-out;
-}
-
-.section.visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 /* Topbar */
@@ -183,7 +174,7 @@ html {
   border: 2px solid #f2a900;
 }
 
-/* Botão login Steam */
+/* Botão login */
 .login-btn {
   color: #f2a900;
   font-weight: 600;
@@ -191,9 +182,11 @@ html {
   padding: 6px 12px;
   border-radius: 5px;
   transition: 0.3s;
+  text-decoration: none;
 }
 
 .login-btn:hover {
   background-color: #171a21;
+  color: #fff;
 }
 </style>

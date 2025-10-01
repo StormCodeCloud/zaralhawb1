@@ -1,0 +1,20 @@
+[
+  {
+    "action": "POST /api/orders",
+    "id": 1,
+    "userId": 1,
+    "timestamp": "2025-10-01T08:54:44.090Z"
+  },
+  {
+    "action": "PUT /api/orders",
+    "id": "1",
+    "total": 1200,
+    "status": "paid",
+    "timestamp": "2025-10-01T09:21:03.969Z"
+  },
+  {
+    "action": "GET /api/orders",
+    "count": 1,
+    "timestamp": "2025-10-01T10:07:04.986Z"
+  }
+]

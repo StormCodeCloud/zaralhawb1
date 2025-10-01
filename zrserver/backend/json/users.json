@@ -1,0 +1,14 @@
+[
+  {
+    "action": "POST /api/users",
+    "id": 3,
+    "username": "player2",
+    "timestamp": "2025-10-01T08:46:13.800Z"
+  },
+  {
+    "action": "PUT /api/users",
+    "id": "1",
+    "username": "duarte_dev",
+    "timestamp": "2025-10-01T09:15:40.303Z"
+  }
+]

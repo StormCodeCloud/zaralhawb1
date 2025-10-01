@@ -1,0 +1,32 @@
+[
+  {
+    "action": "POST /api/users",
+    "error": "Duplicate entry 'player1' for key 'users.username'",
+    "timestamp": "2025-10-01T08:45:31.710Z"
+  },
+  {
+    "action": "POST /api/transactions",
+    "error": "Unknown column 'id' in 'field list'",
+    "timestamp": "2025-10-01T09:00:26.361Z"
+  },
+  {
+    "action": "POST /api/transactions",
+    "error": "Unknown column 'id' in 'field list'",
+    "timestamp": "2025-10-01T09:01:43.134Z"
+  },
+  {
+    "action": "POST /api/transactions",
+    "error": "Unknown column 'id' in 'field list'",
+    "timestamp": "2025-10-01T09:03:25.294Z"
+  },
+  {
+    "action": "DELETE /api/users",
+    "error": "Cannot delete or update a parent row: a foreign key constraint fails (`zaralhabdd`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`))",
+    "timestamp": "2025-10-01T10:12:05.570Z"
+  },
+  {
+    "action": "DELETE /api/users",
+    "error": "Cannot delete or update a parent row: a foreign key constraint fails (`zaralhabdd`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`))",
+    "timestamp": "2025-10-01T10:13:35.112Z"
+  }
+]

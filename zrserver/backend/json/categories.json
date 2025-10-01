@@ -1,0 +1,25 @@
+[
+  {
+    "action": "POST /api/categories",
+    "id": 1,
+    "name": "Armas",
+    "timestamp": "2025-10-01T08:39:02.202Z"
+  },
+  {
+    "action": "POST /api/categories",
+    "id": 2,
+    "name": "Armas",
+    "timestamp": "2025-10-01T09:02:51.204Z"
+  },
+  {
+    "action": "PUT /api/categories",
+    "id": "1",
+    "name": "Armas Pesadas",
+    "timestamp": "2025-10-01T09:16:41.744Z"
+  },
+  {
+    "action": "GET /api/categories",
+    "count": 2,
+    "timestamp": "2025-10-01T10:05:51.442Z"
+  }
+]

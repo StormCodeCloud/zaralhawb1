@@ -1,0 +1,13 @@
+[
+  {
+    "action": "PUT /api/products",
+    "id": "1",
+    "name": "AK-47 Elite",
+    "timestamp": "2025-10-01T09:20:18.668Z"
+  },
+  {
+    "action": "GET /api/products",
+    "count": 0,
+    "timestamp": "2025-10-01T10:06:45.034Z"
+  }
+]

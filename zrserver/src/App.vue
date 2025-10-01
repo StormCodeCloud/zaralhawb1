@@ -4,6 +4,7 @@ import Footer from "./components/Footer.vue";
 import LoadingSpinner from "./components/LoadingSpinner.vue";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import SupportChat from "./components/SupportChat.vue";
 
 const loading = ref(false);
 const steamUser = ref(null);
@@ -48,6 +49,9 @@ onMounted(() => {
       <router-view />
     </div>
     <Footer />
+  </div>
+  <div>
+    <SupportChat/>
   </div>
 </template>
 
