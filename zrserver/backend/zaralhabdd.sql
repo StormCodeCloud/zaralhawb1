@@ -7,6 +7,7 @@ CREATE TABLE users (
     username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
+    country varchar(100) not null,
     role ENUM('user','admin','moderator') DEFAULT 'user',
     balance DECIMAL(10,2) DEFAULT 0,
     banned BOOLEAN DEFAULT FALSE,
@@ -69,7 +70,7 @@ CREATE TABLE servers (
 -- TRANSACTIONS (opcional)
 CREATE TABLE transactions (
     transactionsId INT AUTO_INCREMENT PRIMARY KEY,
-    userId INT NOT NULL,
+    userId INT NOT NULL,	
     ordersId INT NOT NULL,
     method ENUM('Paypal', 'Pix', 'Crypto', 'Mbway', 'CreditCard') DEFAULT 'Pix' NOT NULL,
     status ENUM('pending','paid','delivered','canceled') DEFAULT 'pending' NOT NULL,

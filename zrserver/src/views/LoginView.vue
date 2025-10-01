@@ -108,7 +108,7 @@ function copyForm() {
 .overlay {
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* 50% escuro */
+  background-color: rgba(0, 0, 0, 0.7); /* 50% escuro */
   z-index: 1;
 }
 
@@ -128,6 +128,8 @@ function copyForm() {
   border-radius: 8px;
   border: 1px solid #ddd;
   transition: all 0.3s ease;
+  position: relative;
+  
 }
 .custom-input:focus {
   border-color: #f2a900;

@@ -178,5 +178,53 @@
     "url": "/api/users/1",
     "status": 500,
     "timestamp": "2025-10-01T10:13:35.115Z"
+  },
+  {
+    "method": "GET",
+    "url": "/api-docs",
+    "status": 301,
+    "timestamp": "2025-10-01T12:36:26.655Z"
+  },
+  {
+    "method": "GET",
+    "url": "/api-docs/",
+    "status": 200,
+    "timestamp": "2025-10-01T12:36:26.680Z"
+  },
+  {
+    "method": "GET",
+    "url": "/api-docs/swagger-ui-init.js",
+    "status": 200,
+    "timestamp": "2025-10-01T12:36:26.802Z"
+  },
+  {
+    "method": "GET",
+    "url": "/api-docs/swagger-ui.css",
+    "status": 200,
+    "timestamp": "2025-10-01T12:36:26.815Z"
+  },
+  {
+    "method": "GET",
+    "url": "/api-docs/swagger-ui-standalone-preset.js",
+    "status": 200,
+    "timestamp": "2025-10-01T12:36:26.828Z"
+  },
+  {
+    "method": "GET",
+    "url": "/api-docs/swagger-ui-bundle.js",
+    "status": 200,
+    "timestamp": "2025-10-01T12:36:26.852Z"
+  },
+  {
+    "method": "GET",
+    "url": "/api-docs/favicon-32x32.png",
+    "status": 200,
+    "timestamp": "2025-10-01T12:36:28.011Z"
+  },
+  {
+    "method": "POST",
+    "url": "/api/products",
+    "status": 500,
+    "timestamp": "2025-10-01T12:38:09.007Z"
   }
 ]

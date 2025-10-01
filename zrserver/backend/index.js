@@ -3,6 +3,8 @@ import cors from "cors";
 import mysql from "mysql2/promise";
 import fs from "fs";
 import path from "path";
+import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -61,42 +63,122 @@ app.use((req, res, next) => {
 });
 
 // ---------------------------
+// Swagger Config
+// ---------------------------
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Zaralha Servers API",
+      version: "1.0.0",
+      description: "Documentação da API CRUD (Users, Products, Categories, Orders, Transactions, Servers)"
+    },
+    servers: [
+      { url: `http://localhost:${PORT}` }
+    ],
+  },
+  apis: ["./index.js"], // lê os comentários JSDoc
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// ---------------------------
 // Rota inicial
 // ---------------------------
 app.get("/", (req, res) => {
-  res.send("🚀 API Zaralha Servers está no ar!");
+  res.send("🚀 API Zaralha Servers está no ar! Documentação em /api-docs");
 });
+
+/**
+ * @swagger
+ * tags:
+ *   - name: Users
+ *   - name: Products
+ *   - name: Categories
+ *   - name: Orders
+ *   - name: Transactions
+ *   - name: Servers
+ */
 
 //
 // ---------------------------
 // USERS CRUD
 // ---------------------------
+
+/**
+ * @swagger
+ * /api/users:
+ *   get:
+ *     summary: Lista todos os usuários
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Lista de usuários
+ */
 app.get("/api/users", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM users");
     logToFile("users.json", { action: "GET /api/users", count: rows.length });
     res.json(rows);
   } catch (err) {
-    logToFile("erros.json", { action: "GET /api/users", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/users:
+ *   post:
+ *     summary: Cria um novo usuário
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password_hash:
+ *                 type: string
+ *               country:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Usuário criado com sucesso
+ */
 app.post("/api/users", async (req, res) => {
-  const { username, email, password_hash } = req.body;
+  const { username, email, password_hash, country } = req.body;
   try {
     const [result] = await db.query(
-      "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)",
-      [username, email, password_hash]
+      "INSERT INTO users (username, email, password_hash, country) VALUES (?, ?, ?, ?)",
+      [username, email, password_hash, country]
     );
-    logToFile("users.json", { action: "POST /api/users", id: result.insertId, username });
     res.status(201).json({ id: result.insertId, username, email });
   } catch (err) {
-    logToFile("erros.json", { action: "POST /api/users", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   put:
+ *     summary: Atualiza um usuário
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: integer }
+ *     responses:
+ *       200:
+ *         description: Usuário atualizado com sucesso
+ */
 app.put("/api/users/:id", async (req, res) => {
   const { id } = req.params;
   const { username, email, role, balance, banned } = req.body;
@@ -105,21 +187,32 @@ app.put("/api/users/:id", async (req, res) => {
       "UPDATE users SET username=?, email=?, role=?, balance=?, banned=? WHERE id=?",
       [username, email, role, balance, banned, id]
     );
-    logToFile("users.json", { action: "PUT /api/users", id, username });
     res.json({ message: "User atualizado com sucesso" });
   } catch (err) {
-    logToFile("erros.json", { action: "PUT /api/users", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   delete:
+ *     summary: Deleta um usuário
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: integer }
+ *     responses:
+ *       200:
+ *         description: Usuário deletado
+ */
 app.delete("/api/users/:id", async (req, res) => {
   try {
     await db.query("DELETE FROM users WHERE id=?", [req.params.id]);
-    logToFile("users.json", { action: "DELETE /api/users", id: req.params.id });
     res.json({ message: "User deletado com sucesso" });
   } catch (err) {
-    logToFile("erros.json", { action: "DELETE /api/users", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
@@ -128,17 +221,33 @@ app.delete("/api/users/:id", async (req, res) => {
 // ---------------------------
 // PRODUCTS CRUD
 // ---------------------------
+
+/**
+ * @swagger
+ * /api/products:
+ *   get:
+ *     summary: Lista todos os produtos
+ *     tags: [Products]
+ *     responses:
+ *       200:
+ *         description: Lista de produtos
+ */
 app.get("/api/products", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM products");
-    logToFile("products.json", { action: "GET /api/products", count: rows.length });
     res.json(rows);
   } catch (err) {
-    logToFile("erros.json", { action: "GET /api/products", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/products:
+ *   post:
+ *     summary: Cria um novo produto
+ *     tags: [Products]
+ */
 app.post("/api/products", async (req, res) => {
   const { categoryId, name, description, price, currency, image, label, stock } = req.body;
   try {
@@ -146,14 +255,19 @@ app.post("/api/products", async (req, res) => {
       "INSERT INTO products (categoryId, name, description, price, currency, image, label, stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
       [categoryId, name, description, price, currency, image, label, stock]
     );
-    logToFile("products.json", { action: "POST /api/products", id: result.insertId, name });
     res.status(201).json({ id: result.insertId, name, price });
   } catch (err) {
-    logToFile("erros.json", { action: "POST /api/products", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/products/{id}:
+ *   put:
+ *     summary: Atualiza um produto
+ *     tags: [Products]
+ */
 app.put("/api/products/:id", async (req, res) => {
   const { id } = req.params;
   const { name, description, price, stock } = req.body;
@@ -162,21 +276,24 @@ app.put("/api/products/:id", async (req, res) => {
       "UPDATE products SET name=?, description=?, price=?, stock=? WHERE productsId=?",
       [name, description, price, stock, id]
     );
-    logToFile("products.json", { action: "PUT /api/products", id, name });
     res.json({ message: "Produto atualizado com sucesso" });
   } catch (err) {
-    logToFile("erros.json", { action: "PUT /api/products", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/products/{id}:
+ *   delete:
+ *     summary: Deleta um produto
+ *     tags: [Products]
+ */
 app.delete("/api/products/:id", async (req, res) => {
   try {
     await db.query("DELETE FROM products WHERE productsId=?", [req.params.id]);
-    logToFile("products.json", { action: "DELETE /api/products", id: req.params.id });
     res.json({ message: "Produto deletado com sucesso" });
   } catch (err) {
-    logToFile("erros.json", { action: "DELETE /api/products", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
@@ -185,17 +302,30 @@ app.delete("/api/products/:id", async (req, res) => {
 // ---------------------------
 // CATEGORIES CRUD
 // ---------------------------
+
+/**
+ * @swagger
+ * /api/categories:
+ *   get:
+ *     summary: Lista todas as categorias
+ *     tags: [Categories]
+ */
 app.get("/api/categories", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM categories");
-    logToFile("categories.json", { action: "GET /api/categories", count: rows.length });
     res.json(rows);
   } catch (err) {
-    logToFile("erros.json", { action: "GET /api/categories", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/categories:
+ *   post:
+ *     summary: Cria uma nova categoria
+ *     tags: [Categories]
+ */
 app.post("/api/categories", async (req, res) => {
   const { name, label } = req.body;
   try {
@@ -203,14 +333,19 @@ app.post("/api/categories", async (req, res) => {
       "INSERT INTO categories (name, label) VALUES (?, ?)",
       [name, label]
     );
-    logToFile("categories.json", { action: "POST /api/categories", id: result.insertId, name });
     res.status(201).json({ id: result.insertId, name, label });
   } catch (err) {
-    logToFile("erros.json", { action: "POST /api/categories", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/categories/{id}:
+ *   put:
+ *     summary: Atualiza uma categoria
+ *     tags: [Categories]
+ */
 app.put("/api/categories/:id", async (req, res) => {
   const { id } = req.params;
   const { name, label } = req.body;
@@ -219,21 +354,24 @@ app.put("/api/categories/:id", async (req, res) => {
       "UPDATE categories SET name=?, label=? WHERE categoryId=?",
       [name, label, id]
     );
-    logToFile("categories.json", { action: "PUT /api/categories", id, name });
     res.json({ message: "Categoria atualizada com sucesso" });
   } catch (err) {
-    logToFile("erros.json", { action: "PUT /api/categories", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/categories/{id}:
+ *   delete:
+ *     summary: Deleta uma categoria
+ *     tags: [Categories]
+ */
 app.delete("/api/categories/:id", async (req, res) => {
   try {
     await db.query("DELETE FROM categories WHERE categoryId=?", [req.params.id]);
-    logToFile("categories.json", { action: "DELETE /api/categories", id: req.params.id });
     res.json({ message: "Categoria deletada com sucesso" });
   } catch (err) {
-    logToFile("erros.json", { action: "DELETE /api/categories", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
@@ -242,17 +380,30 @@ app.delete("/api/categories/:id", async (req, res) => {
 // ---------------------------
 // ORDERS CRUD
 // ---------------------------
+
+/**
+ * @swagger
+ * /api/orders:
+ *   get:
+ *     summary: Lista todos os pedidos
+ *     tags: [Orders]
+ */
 app.get("/api/orders", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM orders");
-    logToFile("orders.json", { action: "GET /api/orders", count: rows.length });
     res.json(rows);
   } catch (err) {
-    logToFile("erros.json", { action: "GET /api/orders", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/orders:
+ *   post:
+ *     summary: Cria um novo pedido
+ *     tags: [Orders]
+ */
 app.post("/api/orders", async (req, res) => {
   const { userId, total } = req.body;
   try {
@@ -260,14 +411,19 @@ app.post("/api/orders", async (req, res) => {
       "INSERT INTO orders (userId, total) VALUES (?, ?)",
       [userId, total]
     );
-    logToFile("orders.json", { action: "POST /api/orders", id: result.insertId, userId });
     res.status(201).json({ id: result.insertId, userId, total });
   } catch (err) {
-    logToFile("erros.json", { action: "POST /api/orders", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/orders/{id}:
+ *   put:
+ *     summary: Atualiza um pedido
+ *     tags: [Orders]
+ */
 app.put("/api/orders/:id", async (req, res) => {
   const { id } = req.params;
   const { total, status } = req.body;
@@ -276,21 +432,24 @@ app.put("/api/orders/:id", async (req, res) => {
       "UPDATE orders SET total=?, status=? WHERE ordersId=?",
       [total, status, id]
     );
-    logToFile("orders.json", { action: "PUT /api/orders", id, total, status });
     res.json({ message: "Pedido atualizado com sucesso" });
   } catch (err) {
-    logToFile("erros.json", { action: "PUT /api/orders", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/orders/{id}:
+ *   delete:
+ *     summary: Deleta um pedido
+ *     tags: [Orders]
+ */
 app.delete("/api/orders/:id", async (req, res) => {
   try {
     await db.query("DELETE FROM orders WHERE ordersId=?", [req.params.id]);
-    logToFile("orders.json", { action: "DELETE /api/orders", id: req.params.id });
     res.json({ message: "Pedido deletado com sucesso" });
   } catch (err) {
-    logToFile("erros.json", { action: "DELETE /api/orders", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
@@ -299,17 +458,30 @@ app.delete("/api/orders/:id", async (req, res) => {
 // ---------------------------
 // TRANSACTIONS CRUD
 // ---------------------------
+
+/**
+ * @swagger
+ * /api/transactions:
+ *   get:
+ *     summary: Lista todas as transações
+ *     tags: [Transactions]
+ */
 app.get("/api/transactions", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM transactions");
-    logToFile("transactions.json", { action: "GET /api/transactions", count: rows.length });
     res.json(rows);
   } catch (err) {
-    logToFile("erros.json", { action: "GET /api/transactions", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/transactions:
+ *   post:
+ *     summary: Cria uma nova transação
+ *     tags: [Transactions]
+ */
 app.post("/api/transactions", async (req, res) => {
   const { userId, orderId, amount, method } = req.body;
   try {
@@ -317,14 +489,19 @@ app.post("/api/transactions", async (req, res) => {
       "INSERT INTO transactions (id, ordersId, amount, method) VALUES (?, ?, ?, ?)",
       [userId, orderId, amount, method]
     );
-    logToFile("transactions.json", { action: "POST /api/transactions", id: result.insertId, userId });
     res.status(201).json({ id: result.insertId, userId, orderId, amount });
   } catch (err) {
-    logToFile("erros.json", { action: "POST /api/transactions", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/transactions/{id}:
+ *   put:
+ *     summary: Atualiza uma transação
+ *     tags: [Transactions]
+ */
 app.put("/api/transactions/:id", async (req, res) => {
   const { id } = req.params;
   const { amount, status } = req.body;
@@ -333,21 +510,24 @@ app.put("/api/transactions/:id", async (req, res) => {
       "UPDATE transactions SET amount=?, status=? WHERE transactionsId=?",
       [amount, status, id]
     );
-    logToFile("transactions.json", { action: "PUT /api/transactions", id, amount, status });
     res.json({ message: "Transação atualizada com sucesso" });
   } catch (err) {
-    logToFile("erros.json", { action: "PUT /api/transactions", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/transactions/{id}:
+ *   delete:
+ *     summary: Deleta uma transação
+ *     tags: [Transactions]
+ */
 app.delete("/api/transactions/:id", async (req, res) => {
   try {
     await db.query("DELETE FROM transactions WHERE transactionsId=?", [req.params.id]);
-    logToFile("transactions.json", { action: "DELETE /api/transactions", id: req.params.id });
     res.json({ message: "Transação deletada com sucesso" });
   } catch (err) {
-    logToFile("erros.json", { action: "DELETE /api/transactions", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
@@ -356,17 +536,30 @@ app.delete("/api/transactions/:id", async (req, res) => {
 // ---------------------------
 // SERVERS CRUD
 // ---------------------------
+
+/**
+ * @swagger
+ * /api/servers:
+ *   get:
+ *     summary: Lista todos os servidores
+ *     tags: [Servers]
+ */
 app.get("/api/servers", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM servers");
-    logToFile("servers.json", { action: "GET /api/servers", count: rows.length });
     res.json(rows);
   } catch (err) {
-    logToFile("erros.json", { action: "GET /api/servers", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/servers:
+ *   post:
+ *     summary: Cria um novo servidor
+ *     tags: [Servers]
+ */
 app.post("/api/servers", async (req, res) => {
   const { name, ip, port, slots, game } = req.body;
   try {
@@ -374,14 +567,19 @@ app.post("/api/servers", async (req, res) => {
       "INSERT INTO servers (name, ip, port, slots, game) VALUES (?, ?, ?, ?, ?)",
       [name, ip, port, slots, game]
     );
-    logToFile("servers.json", { action: "POST /api/servers", id: result.insertId, name });
     res.status(201).json({ id: result.insertId, name, ip, port });
   } catch (err) {
-    logToFile("erros.json", { action: "POST /api/servers", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/servers/{id}:
+ *   put:
+ *     summary: Atualiza um servidor
+ *     tags: [Servers]
+ */
 app.put("/api/servers/:id", async (req, res) => {
   const { id } = req.params;
   const { name, ip, port, slots, game } = req.body;
@@ -390,21 +588,24 @@ app.put("/api/servers/:id", async (req, res) => {
       "UPDATE servers SET name=?, ip=?, port=?, slots=?, game=? WHERE serversId=?",
       [name, ip, port, slots, game, id]
     );
-    logToFile("servers.json", { action: "PUT /api/servers", id, name });
     res.json({ message: "Servidor atualizado com sucesso" });
   } catch (err) {
-    logToFile("erros.json", { action: "PUT /api/servers", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
 
+/**
+ * @swagger
+ * /api/servers/{id}:
+ *   delete:
+ *     summary: Deleta um servidor
+ *     tags: [Servers]
+ */
 app.delete("/api/servers/:id", async (req, res) => {
   try {
     await db.query("DELETE FROM servers WHERE serversId=?", [req.params.id]);
-    logToFile("servers.json", { action: "DELETE /api/servers", id: req.params.id });
     res.json({ message: "Servidor deletado com sucesso" });
   } catch (err) {
-    logToFile("erros.json", { action: "DELETE /api/servers", error: err.message });
     res.status(500).json({ error: "Erro no servidor" });
   }
 });
@@ -415,4 +616,5 @@ app.delete("/api/servers/:id", async (req, res) => {
 app.listen(PORT, async () => {
   await initDb();
   console.log(`🌍 Servidor rodando em http://localhost:${PORT}`);
+  console.log(`📖 Documentação disponível em http://localhost:${PORT}/api-docs`);
 });
