@@ -408,7 +408,6 @@ function buy(item) {
   justify-content: space-between;
   height: 100%;
   max-width: 260px;
-  /* deixa os cards mais uniformes */
   margin: auto;
 }
 
@@ -467,5 +466,193 @@ function buy(item) {
   margin-top: auto;
   font-weight: 600;
   border-width: 2px;
+}
+
+/* ======= MODAL ======= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: #1a1a1f;
+  border: 1px solid #2b2b30;
+  border-radius: 14px;
+  padding: 2rem;
+  max-width: 650px;
+  width: 100%;
+  color: #fff;
+  position: relative;
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  font-size: 1.5rem;
+  color: #999;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-title {
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.modal-media {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.modal-img {
+  max-width: 250px;
+  max-height: 250px;
+  object-fit: contain;
+  width: 100%;
+}
+
+/* Descrição */
+.modal-desc {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  color: #cfcfcf;
+  text-align: center;
+}
+
+/* Kit */
+.vip-kit-box {
+  background: #141418;
+  border: 1px solid #2b2b30;
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.vip-kit-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f2a900;
+  margin-bottom: 0.75rem;
+}
+
+.kit-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.kit-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.kit-icon {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+/* Quantidade e preço */
+.quantity-wrapper {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.qty-label {
+  font-size: 0.9rem;
+  color: #cfcfcf;
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-input {
+  width: 72px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #2b2b30;
+  border-radius: 8px;
+  background: #0f0f12;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.qty-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #2b2b30;
+  background: #1a1a1f;
+  color: #f2a900;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.qty-btn:hover {
+  background: #f2a900;
+  color: #0d0d0f;
+}
+
+/* Preço */
+.modal-total {
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Botões finais */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-warning {
+  background: #f2a900;
+  border: none;
+  font-weight: 700;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.btn-warning:hover {
+  background: #d78e00;
+}
+
+.btn-outline-light {
+  border: 1px solid #555;
+  background: transparent;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+}
+
+.btn-outline-light:hover {
+  background: #2a2a2a;
 }
 </style>
