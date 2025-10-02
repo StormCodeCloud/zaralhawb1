@@ -10,6 +10,9 @@
       </p>
     </div>
   </section>
+  <FeaturedVideo />
+  <SupportSection />
+  <FeaturedVideo2 />
   <ServersSection />
 </template>
 
@@ -17,6 +20,11 @@
 import Services from "@/views/ServicesView.vue"
 import heroImg from "../assets/Rust-144.jpg";
 import ServersSection from '../components/ServersSection.vue'
+import FeaturedVideo from "@/components/FeaturedVideo.vue";
+import FeaturedVideo2 from "@/components/FeaturedVideo2.vue";
+import SupportSection from "@/components/SupportSection.vue";
+
+
 const servers = [
   { name: "Rust", slots: "86 / 200", ip: "rust.zaralha.gg:28015" },
   { name: "Minecraft", slots: "120 / 500", ip: "mc.zaralha.gg:25565" },
