@@ -1,9 +1,7 @@
 <template>
   <!-- Hero -->
-  <section
-    class="hero d-flex align-items-center justify-content-center"
-    :style="{ backgroundImage: `url(${heroImg})` }"
-  >
+  <section class="hero d-flex align-items-center justify-content-center"
+    :style="{ backgroundImage: `url(${heroImg})` }">
     <div class="overlay"></div>
     <div class="hero-content text-center">
       <h1 class="hero-title">LOJA ZARALHA RUST</h1>
@@ -18,11 +16,7 @@
     <div class="container">
       <ul class="nav nav-pills">
         <li class="nav-item" v-for="cat in categories" :key="cat.name">
-          <button
-            class="nav-link"
-            :class="{ active: currentCat === cat.name }"
-            @click="currentCat = cat.name"
-          >
+          <button class="nav-link" :class="{ active: currentCat === cat.name }" @click="currentCat = cat.name">
             {{ cat.label }}
           </button>
         </li>
@@ -33,12 +27,7 @@
   <!-- Pesquisa -->
   <section class="shop-search container-fluid py-3">
     <div class="container">
-      <input
-        type="text"
-        v-model="searchTerm"
-        placeholder="Nome do item..."
-        class="form-control search-box"
-      />
+      <input type="text" v-model="searchTerm" placeholder="Nome do item..." class="form-control search-box" />
     </div>
   </section>
 
@@ -46,19 +35,14 @@
   <section class="shop-items container-fluid py-5">
     <div class="container">
       <div class="row g-4">
-        <div
-          v-for="item in filteredItems"
-          :key="item.id"
-          class="col-12 col-sm-6 col-lg-4 col-xl-3 d-flex"
-        >
+        <div v-for="item in filteredItems" :key="item.id" class="col-12 col-sm-6 col-lg-4 col-xl-3 d-flex">
           <div class="card flex-fill h-100">
             <div class="card-img-wrapper">
               <img :src="item.image" :alt="item.name" class="card-img-top" />
               <!-- Mostra preço + se for pacote -->
               <span class="badge price">
                 {{ item.price }} BRL<span v-if="item.amount">
-                  / x{{ item.amount }}</span
-                >
+                  / x{{ item.amount }}</span>
               </span>
               <span v-if="item.label" class="badge label">{{
                 item.label
@@ -68,11 +52,7 @@
               <h5 class="card-title">{{ item.name }}</h5>
 
               <!-- Botão para abrir modal de detalhes -->
-              <button
-                type="button"
-                class="btn btn-outline-warning mt-auto"
-                @click="openItem(item)"
-              >
+              <button type="button" class="btn btn-outline-warning mt-auto" @click="openItem(item)">
                 Ver detalhes
               </button>
             </div>
@@ -93,11 +73,7 @@
         <h2 class="modal-title">{{ selectedItem.name }}</h2>
 
         <div class="modal-media">
-          <img
-            :src="selectedItem.image"
-            :alt="selectedItem.name"
-            class="modal-img"
-          />
+          <img :src="selectedItem.image" :alt="selectedItem.name" class="modal-img" />
         </div>
 
         <!-- Descrição -->
@@ -121,25 +97,11 @@
         <div class="quantity-wrapper">
           <label class="qty-label">Quantidade</label>
           <div class="qty-controls">
-            <button
-              type="button"
-              class="qty-btn"
-              @click="decrease(selectedItem)"
-            >
+            <button type="button" class="qty-btn" @click="decrease(selectedItem)">
               –
             </button>
-            <input
-              type="number"
-              v-model.number="selectedItem.qty"
-              min="1"
-              max="999"
-              class="quantity-input"
-            />
-            <button
-              type="button"
-              class="qty-btn"
-              @click="increase(selectedItem)"
-            >
+            <input type="number" v-model.number="selectedItem.qty" min="1" max="999" class="quantity-input" />
+            <button type="button" class="qty-btn" @click="increase(selectedItem)">
               +
             </button>
           </div>
@@ -149,8 +111,7 @@
         <p class="mt-3 text-center fw-bold">
           Total: {{ selectedItem.price * selectedItem.qty }} BRL
           <span v-if="selectedItem.amount">
-            (x{{ selectedItem.amount * selectedItem.qty }} unidades)</span
-          >
+            (x{{ selectedItem.amount * selectedItem.qty }} unidades)</span>
         </p>
 
         <!-- Ações -->
@@ -170,28 +131,38 @@
 <script setup>
 import { ref, computed } from "vue";
 import heroImg from "../assets/shop/shopRustbg.jpg";
+
+// VIPs fixos
 import vipGold from "../assets/vips/vipgold.png";
 import vipSilver from "../assets/vips/vipsilver.png";
 import vipBronze from "../assets/vips/vipbronze.png";
 
-// Carrega ícones
-const icons = import.meta.glob("../assets/itens-rust/icons/*.webp", {
-  eager: true,
-});
+// Carrega todos os ícones dentro de icons/** (subpastas incluídas)
+const icons = import.meta.glob("../assets/itens-rust/icons/**/*.webp", { eager: true });
+
 const iconMap = {};
 for (const path in icons) {
-  const fileName = path.split("/").pop();
-  iconMap[fileName] = icons[path].default;
-}
-function getIcon(name) {
-  return iconMap[name] || null;
+  // exemplo de path: "../assets/itens-rust/icons/Ammo/5.56.webp"
+  const relativePath = path.split("/itens-rust/icons/")[1];
+  iconMap[relativePath] = icons[path].default;
 }
 
+// Função para buscar ícone
+function getIcon(pathName) {
+  if (iconMap[pathName]) return iconMap[pathName];
+
+  // fallback: só pelo nome do ficheiro (ex: "AK.webp")
+  const foundKey = Object.keys(iconMap).find(key => key.endsWith("/" + pathName) || key === pathName);
+  return foundKey ? iconMap[foundKey] : null;
+}
+
+// Categorias
 const categories = [
   { name: "all", label: "Todos os itens" },
   { name: "mostSelled", label: "Mais vendidos" },
   { name: "vip", label: "Kits VIP" },
   { name: "weapons", label: "Armas" },
+  { name: "weaponsAtc", label: "Miras e outros" },
   { name: "ammo", label: "Munição" },
   { name: "tools", label: "Ferramentas" },
   { name: "construction", label: "Construção" },
@@ -208,8 +179,9 @@ const categories = [
 const currentCat = ref("all");
 const searchTerm = ref("");
 
-// ====== DADOS ======
+// ====== LISTA DE ITENS ======
 const items = ref([
+  // VIPs
   {
     id: 1,
     name: "VIP Gold",
@@ -218,12 +190,8 @@ const items = ref([
     description: "Kit completo para acelerar o início do wipe.",
     categories: ["vip"],
     kit: [
-      { name: "AK-47", amount: 1, icon: getIcon("AK.webp") },
-      {
-        name: "5.56 Explosiva",
-        amount: 128,
-        icon: getIcon("5.56 EXPLOSIVA.webp"),
-      },
+      { name: "AK-47", amount: 1, icon: getIcon("Weapons/AK.webp") },
+      { name: "5.56 Explosiva", amount: 128, icon: getIcon("Ammo/5.56 EXPLOSIVA.webp") },
     ],
   },
   {
@@ -235,12 +203,8 @@ const items = ref([
     description: "Equilíbrio entre custo e performance.",
     categories: ["vip"],
     kit: [
-      {
-        name: "12 de Cano Duplo",
-        amount: 1,
-        icon: getIcon("12 DE CANO DUPLO.webp"),
-      },
-      { name: "5.56", amount: 64, icon: getIcon("5.56.webp") },
+      { name: "12 de Cano Duplo", amount: 1, icon: getIcon("Weapons/12 DE CANO DUPLO.webp") },
+      { name: "5.56", amount: 64, icon: getIcon("Ammo/5.56.webp") },
     ],
   },
   {
@@ -251,36 +215,55 @@ const items = ref([
     description: "Para começar com o pé direito.",
     categories: ["vip"],
     kit: [
-      {
-        name: "Guitarra",
-        amount: 1,
-        icon: getIcon("Acoustic_Guitar_icon.webp"),
-      },
-      {
-        name: "12 Balote (Verde)",
-        amount: 20,
-        icon: getIcon("12 BALOTE (VERDE).webp"),
-      },
+      { name: "Guitarra", amount: 1, icon: getIcon("Misc/Acoustic_Guitar_icon.webp") },
+      { name: "12 Balote (Verde)", amount: 20, icon: getIcon("Ammo/12 BALOTE (VERDE).webp") },
     ],
   },
 
-  // Balas em pacotes
+  // Balas (pacotes)
   {
     id: 4,
-    name: "Munição 5.56 de Alta",
-    price: 10,
+    name: "Munição 5.56 de Alta velocidade",
+    price: 5,
     amount: 128,
-    image: getIcon("5.56 DE ALTA.webp"),
+    image: getIcon("Ammo/5.56 DE ALTA.webp"),
     description: "Pacote de 128 balas de alta velocidade.",
     categories: ["ammo"],
   },
   {
     id: 5,
     name: "Munição 5.56 Explosiva",
+    price: 15,
+    amount: 128,
+    image: getIcon("Ammo/5.56 EXPLOSIVA.webp"),
+    description: "Pacote de 128 balas explosivas.",
+    categories: ["ammo"],
+  },
+  {
+    id: 6,
+    name: "Munição 5.56 Incendiária",
     price: 10,
     amount: 128,
-    image: getIcon("5.56 EXPLOSIVA.webp"),
-    description: "Pacote de 128 balas explosivas.",
+    image: getIcon("Ammo/5.56 INCENDIARIA.webp"),
+    description: "Pacote de 128 balas incendiárias.",
+    categories: ["ammo"],
+  },
+  {
+    id: 7,
+    name: "Munição 9mm de alta velocidade",
+    price: 2,
+    amount: 128,
+    image: getIcon("Ammo/9MM DE ALTA.webp"),
+    description: "Pacote de 128 balas de 9mm de alta velocidade.",
+    categories: ["ammo"],
+  },
+  {
+    id: 8,
+    name: "Munição 9mm Incendiária",
+    price: 6,
+    amount: 128,
+    image: getIcon("Ammo/9MM INCENDIARIA.webp"),
+    description: "Pacote de 128 balas de 9mm incendiárias.",
     categories: ["ammo"],
   },
 ]);
@@ -288,14 +271,9 @@ const items = ref([
 // ====== FILTRO ======
 const filteredItems = computed(() => {
   return items.value.filter((item) => {
-    const cats = Array.isArray(item.categories)
-      ? item.categories
-      : [item.category];
-    const matchesCategory =
-      currentCat.value === "all" || cats?.includes(currentCat.value);
-    const matchesSearch = item.name
-      .toLowerCase()
-      .includes(searchTerm.value.toLowerCase());
+    const cats = Array.isArray(item.categories) ? item.categories : [item.category];
+    const matchesCategory = currentCat.value === "all" || cats?.includes(currentCat.value);
+    const matchesSearch = item.name.toLowerCase().includes(searchTerm.value.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 });
@@ -319,57 +297,61 @@ function increase(item) {
 }
 function buy(item) {
   const unidades = item.amount ? item.amount * item.qty : item.qty;
-  alert(
-    `Comprar: ${item.name} — ${item.qty} pacotes (${unidades} unidades) por ${
-      item.price * item.qty
-    } BRL`
-  );
+  alert(`Comprar: ${item.name} — ${item.qty} pacotes (${unidades} unidades) por ${item.price * item.qty} BRL`);
 }
 </script>
+
 
 <style scoped>
 /* ======= HERO ======= */
 .hero {
   position: relative;
-  min-height: 60vh;
+  min-height: 50vh;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .hero .overlay {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.65);
 }
+
 .hero-content {
   position: relative;
   z-index: 1;
+  padding: 2rem;
 }
+
 .hero-title {
   font-size: 3rem;
   font-weight: 900;
   text-transform: uppercase;
   color: #fff;
 }
+
 .hero-subtitle {
   font-size: 1.2rem;
   color: #f2a900;
   font-weight: 500;
 }
 
-/* ======= NAV CATEGORIAS + PESQUISA ======= */
-.shop-nav,
-.shop-search,
-.shop-items {
+/* ======= NAV CATEGORIAS ======= */
+.shop-nav {
   background-color: #0d0d0f;
-  color: #fff;
+  padding: 1rem 0;
 }
-/* categorias (teu estilo original) */
+
 .shop-nav .nav {
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.6rem;
   justify-content: center;
 }
+
 .shop-nav .nav-link {
   color: #fff;
   background: transparent;
@@ -379,25 +361,40 @@ function buy(item) {
   font-weight: 500;
   transition: 0.2s;
 }
+
 .shop-nav .nav-link:hover {
   background: rgba(242, 169, 0, 0.15);
   border-color: #f2a900;
   color: #f2a900;
 }
+
 .shop-nav .nav-link.active {
   background-color: #f2a900;
   color: #0d0d0f;
   font-weight: 600;
   border-color: #f2a900;
 }
-.search-box {
-  border-radius: 8px;
-  padding: 0.6rem 1rem;
+
+/* ======= PESQUISA ======= */
+.shop-search {
+  background: #0d0d0f;
+  padding: 1rem 0;
 }
 
-/* ======= GRID/CARDS ======= */
+.search-box {
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+}
+
+/* ======= GRID DE PRODUTOS ======= */
+.shop-items {
+  background: #0d0d0f;
+}
+
 .shop-items .row {
-  row-gap: 2rem;
+  row-gap: 2.5rem;
+  column-gap: 1.5rem;
+  justify-content: center;
 }
 
 .card {
@@ -406,36 +403,47 @@ function buy(item) {
   border: 1px solid #2b2b30;
   border-radius: 12px;
   transition: transform 0.2s, box-shadow 0.2s;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 260px;
+  /* deixa os cards mais uniformes */
+  margin: auto;
 }
+
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
   box-shadow: 0 0 18px rgba(242, 169, 0, 0.25);
 }
+
 .card-img-wrapper {
   position: relative;
   background: #0f0f12;
+  text-align: center;
 }
+
 .card-img-top {
   height: 200px;
   object-fit: contain;
-  padding: 10px;
+  padding: 12px;
   width: 100%;
 }
+
 .card-body {
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  text-align: center;
 }
+
 .card-title {
   font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
-/* badges */
+/* Badges */
 .badge.price {
   position: absolute;
   top: 0.5rem;
@@ -445,6 +453,7 @@ function buy(item) {
   font-weight: 700;
   border-radius: 6px;
 }
+
 .badge.label {
   position: absolute;
   top: 0.5rem;
@@ -453,185 +462,10 @@ function buy(item) {
   font-weight: 600;
 }
 
-/* ======= MODAL ======= */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  padding: 1rem;
-}
-.modal-content {
-  background: #1a1a1f;
-  border: 1px solid #2b2b30;
-  border-radius: 14px;
-  padding: 1.5rem;
-  max-width: 620px;
-  width: 100%;
-  color: #fff;
-  position: relative;
-}
-.modal-close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #0f0f12;
-  color: #fff;
-  border: 1px solid #2b2b30;
-  font-size: 1.2rem;
-  line-height: 1;
-}
-.modal-title {
-  font-weight: 800;
-  font-size: 1.5rem;
-  margin-bottom: 0.75rem;
-}
-.modal-media {
-  display: flex;
-  justify-content: center;
-}
-.modal-img {
-  max-width: 320px;
-  max-height: 320px;
-  object-fit: contain;
-  width: 100%;
-}
-.modal-desc {
-  margin-top: 0.75rem;
-  color: #c7c7c7;
-}
-
-/* vip kit */
-.vip-kit-box {
-  background: #141418;
-  border: 1px solid #2b2b30;
-  border-radius: 10px;
-  padding: 0.75rem;
-  margin-top: 1rem;
-}
-.vip-kit-title {
-  font-size: 0.95rem;
-  margin-bottom: 0.5rem;
-  color: #f2a900;
-  font-weight: 700;
-}
-.kit-list {
-  margin: 0;
-  padding: 0;
-}
-.kit-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.35rem;
-}
-.kit-icon {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-}
-
-/* quantidade */
-.quantity-wrapper {
-  margin-top: 1rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.5rem;
-}
-.qty-label {
-  color: #cfcfcf;
-  font-size: 0.9rem;
-}
-.qty-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-}
-.quantity-input {
-  width: 72px;
-  height: 40px;
-  text-align: center;
-  border: 1px solid #2b2b30;
-  border-radius: 8px;
-  background: #0f0f12;
-  color: #fff;
-  font-weight: 700;
-  font-size: 1rem;
-  -moz-appearance: textfield;
-}
-.quantity-input:focus {
-  border-color: #f2a900;
-  outline: none;
-  box-shadow: 0 0 8px rgba(242, 169, 0, 0.45);
-}
-.quantity-input::-webkit-outer-spin-button,
-.quantity-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.qty-btn {
-  width: 38px;
-  height: 38px;
-  background: #1a1a1f;
-  border: 1px solid #2b2b30;
-  border-radius: 8px;
-  color: #f2a900;
-  font-size: 1.2rem;
-  font-weight: 800;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.15s;
-}
-.qty-btn:hover {
-  background: #f2a900;
-  color: #0d0d0f;
-}
-
-/* ações do modal */
-.modal-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-top: 1.25rem;
-}
-.btn-warning {
-  background-color: #f2a900;
-  border: none;
-  font-weight: 700;
-}
-.btn-warning:hover {
-  background-color: #d78e00;
-  transform: translateY(-1px);
-}
-.btn-outline-light {
-  border-color: #555;
-}
-.btn-outline-light:hover {
-  background: #2a2a2a;
-}
-
-@media (min-width: 576px) {
-  .modal-content {
-    padding: 2rem;
-  }
+/* Botão dentro dos cards */
+.card .btn {
+  margin-top: auto;
+  font-weight: 600;
+  border-width: 2px;
 }
 </style>
