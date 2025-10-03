@@ -41,13 +41,11 @@ function showWarning(shop) {
   background-repeat: no-repeat;
   background-color: #0d0d0f;
 }
-
 .hero .overlay {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.65);
 }
-
 .hero-content {
   position: relative;
   z-index: 1;
