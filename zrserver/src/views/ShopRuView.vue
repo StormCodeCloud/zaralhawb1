@@ -41,7 +41,7 @@
               <img :src="item.image" :alt="item.name" class="card-img-top" />
               <!-- Mostra preço + se for pacote -->
               <span class="badge price">
-                {{ item.price }} BRL<span v-if="item.amount">
+                {{ item.price }} R$<span v-if="item.amount">
                   / x{{ item.amount }}</span>
               </span>
               <span v-if="item.label" class="badge label">{{
@@ -109,7 +109,7 @@
 
         <!-- Preço total -->
         <p class="mt-3 text-center fw-bold">
-          Total: {{ selectedItem.price * selectedItem.qty }} BRL
+          Total: {{ selectedItem.price * selectedItem.qty }} R$
           <span v-if="selectedItem.amount">
             (x{{ selectedItem.amount * selectedItem.qty }} unidades)</span>
         </p>
@@ -136,6 +136,7 @@ import heroImg from "../assets/shop/shopRustbg.jpg";
 import vipGold from "../assets/vips/vipgold.png";
 import vipSilver from "../assets/vips/vipsilver.png";
 import vipBronze from "../assets/vips/vipbronze.png";
+import zaralhakit from "../assets/vips/zaralhakit.png";
 
 // Carrega todos os ícones dentro de icons/** (subpastas incluídas)
 const icons = import.meta.glob("../assets/itens-rust/icons/**/*.webp", { eager: true });
@@ -219,10 +220,21 @@ const items = ref([
       { name: "12 Balote (Verde)", amount: 20, icon: getIcon("Ammo/12 BALOTE (VERDE).webp") },
     ],
   },
+  {
+    id: 4,
+    name: "Zaralha kit",
+    image: zaralhakit,
+    description: "Kit Zaralha Bloqueado. Clique em detalhes para desbloquear agora!",
+    categories: ["other"],
+    kit: [
+      { name: "Guitarra", amount: 1, icon: getIcon("Misc/Acoustic_Guitar_icon.webp") },
+      { name: "12 Balote (Verde)", amount: 20, icon: getIcon("Ammo/12 BALOTE (VERDE).webp") },
+    ],
+  },
 
   // Balas (pacotes)
   {
-    id: 4,
+    id: 5,
     name: "Munição 5.56 de Alta velocidade",
     price: 5,
     amount: 128,
@@ -231,7 +243,7 @@ const items = ref([
     categories: ["ammo"],
   },
   {
-    id: 5,
+    id: 6,
     name: "Munição 5.56 Explosiva",
     price: 15,
     amount: 128,
@@ -240,7 +252,7 @@ const items = ref([
     categories: ["ammo"],
   },
   {
-    id: 6,
+    id: 7,
     name: "Munição 5.56 Incendiária",
     price: 10,
     amount: 128,
@@ -249,7 +261,7 @@ const items = ref([
     categories: ["ammo"],
   },
   {
-    id: 7,
+    id: 8,
     name: "Munição 9mm de alta velocidade",
     price: 2,
     amount: 128,
@@ -258,12 +270,120 @@ const items = ref([
     categories: ["ammo"],
   },
   {
-    id: 8,
+    id: 9,
     name: "Munição 9mm Incendiária",
     price: 6,
     amount: 128,
     image: getIcon("Ammo/9MM INCENDIARIA.webp"),
     description: "Pacote de 128 balas de 9mm incendiárias.",
+    categories: ["ammo"],
+  },
+  {
+    id: 10,
+    name: "Munição 9mm",
+    price: 6,
+    amount: 128,
+    image: getIcon("Ammo/9MM.webp"),
+    description: "Pacote de 128 balas de 9mm.",
+    categories: ["ammo"],
+  },
+  {
+    id: 11,
+    name: "Munição de Shotgun Calibre (verde)",
+    price: 5,
+    amount: 128,
+    image: getIcon("Ammo/12 BALOTE (VERDE).webp"),
+    description: "Pacote de 128 balas de 12 Calibre (verde).",
+    categories: ["ammo"],
+  },
+  {
+    id: 12,
+    name: "Munição de Shotgun Calibre Incendiária (Azul)",
+    price: 5,
+    amount: 128,  
+    image: getIcon("Ammo/12 INCENDIARIA (AZUL).webp"),
+    description: "Pacote de 128 balas de 12 Calibre Incendiária (azul).",
+    categories: ["ammo"],
+  },
+  {
+    id: 13,
+    name: "Munição de Shotgun",
+    price: 2,
+    amount: 128,
+    image: getIcon("Ammo/12BALA.webp"),
+    description: "Pacote de 128 balas de 9mm incendiárias.",
+    categories: ["ammo"],
+  },
+  {
+    id: 14,
+    name: "Munição feita á mão",
+    price: 2,
+    amount: 128,
+    image: getIcon("Ammo/Handmade_Shell_icon.webp"),
+    description: "Pacote de 128 balas feita á mão (bala de shotgun e traps).",
+    categories: ["ammo"],
+  },
+  {
+    id: 15,
+    name: "Flecha de alta velocidade",
+    price: 1,
+    amount: 128,
+    image: getIcon("Ammo/High_Velocity_Arrow_icon.webp"),
+    description: "Pacote de 128 flechas de alta velocidade.",
+    categories: ["ammo"],
+  },
+  {
+    id: 16,
+    name: "Flecha de madeira",
+    price: 1,
+    amount: 128,
+    image: getIcon("Ammo/Wooden_Arrow_icon.webp"),
+    description: "Pacote de 128 Flechas de madeira.",
+    categories: ["ammo"],
+  },
+  {
+    id: 17,
+    name: "Rocket de Alta velocidade",
+    price: 10,
+    amount: 20,
+    image: getIcon("Ammo/ROCKET DE ALTA.webp"),
+    description: "Pacote de 20 rockets de alta velocidade.",
+    categories: ["ammo"],
+  },
+  {
+    id: 18,
+    name: "Rockets Incendiários",
+    price: 15,
+    amount: 20,
+    image: getIcon("Ammo/ROCKET DE FOGO.webp"),
+    description: "Pacote de 20 rockets incediários.",
+    categories: ["ammo"],
+  },
+  {
+    id: 19,
+    name: "Rocket Explosivo",
+    price: 20,
+    amount: 10,
+    image: getIcon("Ammo/ROCKET.webp"),
+    description: "Pacote de 20 rockets com explosivos.",
+    categories: ["ammo"],
+  },
+  {
+    id: 20,
+    name: "Rocket de fumaça",
+    price: 5,
+    amount: 20,
+    image: getIcon("Ammo/ROCKET FUMACA.webp"),
+    description: "Pacote de 20 rockets de fumaça.",
+    categories: ["ammo"],
+  },
+  {
+    id: 21,
+    name: "Pregos",
+    price: 6,
+    amount: 128,
+    image: getIcon("Ammo/Nailgun_Nails_icon.webp"),
+    description: "Pacote de 128 Pregos para Nailgun.",
     categories: ["ammo"],
   },
 ]);
@@ -297,7 +417,7 @@ function increase(item) {
 }
 function buy(item) {
   const unidades = item.amount ? item.amount * item.qty : item.qty;
-  alert(`Comprar: ${item.name} — ${item.qty} pacotes (${unidades} unidades) por ${item.price * item.qty} BRL`);
+  alert(`Comprar: ${item.name} — ${item.qty} pacotes (${unidades} unidades) por ${item.price * item.qty} R$`);
 }
 </script>
 
@@ -485,7 +605,7 @@ function buy(item) {
   border: 1px solid #2b2b30;
   border-radius: 14px;
   padding: 2rem;
-  max-width: 650px;
+  max-width: 600px;
   width: 100%;
   color: #fff;
   position: relative;
@@ -505,11 +625,12 @@ function buy(item) {
 
 .modal-title {
   font-weight: 700;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   margin-bottom: 1rem;
   text-align: center;
 }
 
+/* imagem centralizada */
 .modal-media {
   display: flex;
   justify-content: center;
@@ -517,13 +638,13 @@ function buy(item) {
 }
 
 .modal-img {
-  max-width: 250px;
-  max-height: 250px;
+  max-width: 200px;
+  max-height: 200px;
   object-fit: contain;
   width: 100%;
 }
 
-/* Descrição */
+/* descrição */
 .modal-desc {
   font-size: 0.95rem;
   margin-bottom: 1rem;
@@ -531,13 +652,13 @@ function buy(item) {
   text-align: center;
 }
 
-/* Kit */
+/* Box de kit */
 .vip-kit-box {
   background: #141418;
   border: 1px solid #2b2b30;
   border-radius: 10px;
   padding: 1rem;
-  margin: 1.5rem 0;
+  margin: 1rem 0;
   text-align: left;
 }
 
@@ -548,9 +669,10 @@ function buy(item) {
   margin-bottom: 0.75rem;
 }
 
+/* kit alinhado em 2 colunas */
 .kit-list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
 }
 
@@ -558,16 +680,19 @@ function buy(item) {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  background: #1f1f23;
+  padding: 0.5rem;
+  border-radius: 8px;
 }
 
 .kit-icon {
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
 }
 
-/* Quantidade e preço */
+/* quantidade */
 .quantity-wrapper {
   margin-top: 1rem;
   display: flex;
@@ -621,6 +746,7 @@ function buy(item) {
   font-size: 1rem;
   font-weight: 700;
   text-align: center;
+  color: #f2a900;
 }
 
 /* Botões finais */
