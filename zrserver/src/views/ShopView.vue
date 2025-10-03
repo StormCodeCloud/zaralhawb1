@@ -52,7 +52,10 @@ function showWarning(shop) {
   position: relative;
   z-index: 1;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> cd551d581ce1169a00641cb9ae7d46e51131e9eb
 .shop-title {
   font-size: 2.5rem;
   margin-bottom: 2rem;
@@ -60,7 +63,10 @@ function showWarning(shop) {
   font-weight: 900;
   text-transform: uppercase;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> cd551d581ce1169a00641cb9ae7d46e51131e9eb
 .shop-buttons {
   display: flex;
   gap: 2rem;
@@ -89,12 +95,18 @@ function showWarning(shop) {
   background: #f2a900;
   color: #0d0d0f;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> cd551d581ce1169a00641cb9ae7d46e51131e9eb
 .shop-btn.back {
   background: #444;
   color: #fff;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> cd551d581ce1169a00641cb9ae7d46e51131e9eb
 .shop-btn:hover {
   transform: scale(1.05);
   box-shadow: 0 0 15px rgba(242, 169, 0, 0.5);
